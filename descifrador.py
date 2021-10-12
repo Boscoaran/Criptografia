@@ -1,6 +1,8 @@
 from os import replace
 
-
+#función para calcular las dos letras que más aparecen. Usa un array de 26 enteros (uno por cada letra). Con ord(char) se obtine el valor númerico del caracter.
+#Sabiendo el valor de A, Z, a y z se ajusta el valor dado por ord para que sea el número de la letras dentro del abecedario. Se suma 1 en la posición por cada aparición.
+#A las dos letras más repetidas se les asigna e y a por ser las que más aparecen el castellano.
 def calcFrecPrinc(cfr,desc):
     frecabs = [0]*26
     n=0
@@ -31,7 +33,8 @@ def calcFrecPrinc(cfr,desc):
     desc[4]=chr(let_e+65)
           
     return(desc)
-              
+
+#dado el texto y la lista de caracteres descubiertos devuelve el texto con los caracteres descubiertos cambiados              
 def descifrar(txt,desc):
     txt=list(txt)
     for i in range(0, 26):
@@ -45,12 +48,16 @@ def descifrar(txt,desc):
     txt=convert_str(txt)
     return(txt)          
 
+#convierte una lista de caracteres a una string
 def convert_str(s):
     nueva_str = ""
     for x in s:
         nueva_str += x 
     return nueva_str
 
+#dado un texto y un string que buscar con '?' en la posición de la letra buscada, devuelve la letra que se busca.
+#el programa falla si la primera letra del string es la ?. Es mejor empezar y acabar con espacios para delimitar palabras.
+#ej: " ho?a " devolveria la letra del texto cifrado que representa la l. Todas las letras del string deben de haber sido descubiertas para usarse.
 def buscar_coincidencias(txt,coincidencia):
     list_txt=list(txt)
     list_coinc=list(coincidencia)
@@ -75,6 +82,7 @@ def buscar_coincidencias(txt,coincidencia):
         c=c+1
     return(descubierta)
 
+#cambia los descubierto a minusculas para no volver a cambiarlos cuando ya se han cambiado en el texto
 def eliminar_desc(desc):
     for i in range (0, 26):
         if desc[i]!='':
@@ -82,6 +90,7 @@ def eliminar_desc(desc):
                 desc[i]=chr(ord(desc[i])+32)
     return(desc)                    
 
+#busca una letra que salga repetida dos veces. Se puede usar para otras letras.
 def buscar_rr(txt):
     list_txt=list(txt)
     c1=''
@@ -97,6 +106,7 @@ def buscar_rr(txt):
             c1=list_txt[c2]
             c2=c2+1    
 
+#dado un texto devuelve todas las palabras y el número de veces que aparecen            
 def palabras_rep(txt):
     lista_txt=[""]
     pal=""
@@ -117,6 +127,7 @@ def palabras_rep(txt):
         rep.append((p1,n))
     return(rep) 
 
+#dada una lista de tuplas que contiene una palabra y el número de veces que aparece en el texto calcula la frecuencia con las que aparecen las palabras
 def calc_frec_pal(rep):
     n=0
     for p in rep:
@@ -126,6 +137,7 @@ def calc_frec_pal(rep):
         p=rep[i][0]
         rep[i]=(p,x/n)      
 
+#devuelve las 3 palabras que más aparecen 
 def pal_mas_rep(rep):
     n1=0
     n2=0
@@ -152,6 +164,8 @@ def pal_mas_rep(rep):
     top_pal=[(p1,n1),(p2,n2),(p3,n3)]
     return(top_pal)
 
+#sustituye en el texto las tres palabras que más aparecen por 'de', 'en' y 'la'. Son las palabras más comunes en castellano. Comprueba en cuales aparece la 'e' para asignar correctamente las letras.
+#no funciona si las palabras que m
 def sust_por_pal_princ(txt,top_pal):
     p1=top_pal[0][0]
     p1=list(p1)
